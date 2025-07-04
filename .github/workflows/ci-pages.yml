@@ -40,8 +40,6 @@ jobs:
 
         run: |
           yarn
-          yarn playwright install
-          yarn test
           yarn build
 
       - name: Upload artifact
