@@ -1,0 +1,71 @@
+{
+	"name": "burnlink",
+	"title": "BurnLink - Share secrets & links securely",
+	"description": "BurnLink - Share secrets & links securely encrypted with no data storage anywhere",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"license": "MIT",
+	"homepage": "https://burnlink.vercel.app/",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Saturnych/burnlink"
+	},
+	"bugs": {
+		"url": "https://github.com/Saturnych/burnlink/issues"
+	},
+	"author": {
+		"name": "Denis Glebko",
+		"email": "saturnych@gmail.com",
+		"url": "https://github.com/Saturnych"
+	},
+	"scripts": {
+		"dev": "vite dev --port 3300 --host",
+		"start": "vite dev --host",
+		"build": "vite build",
+		"preview": "vite preview --port 3311 --host",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"format": "prettier --write .",
+		"lint": "prettier --check .",
+		"test:e2e": "playwright test",
+		"test": "yarn test:e2e"
+	},
+	"devDependencies": {
+		"@iconify/svelte": "^5.0.0",
+		"@playwright/test": "^1.53.0",
+		"@sveltejs/adapter-auto": "^6.0.1",
+		"@sveltejs/adapter-static": "^3.0.8",
+		"@sveltejs/adapter-vercel": "^5.7.2",
+		"@sveltejs/kit": "^2.21.5",
+		"@sveltejs/vite-plugin-svelte": "^5.1.0",
+		"@tailwindcss/vite": "^4.0.0",
+		"dotenv": "^17.0.1",
+		"fingerprintjs2": "^2.1.4",
+		"mdsvex": "^0.12.6",
+		"prettier": "^3.4.2",
+		"prettier-plugin-svelte": "^3.4.0",
+		"runed": "^0.29.1",
+		"svelte": "^5.34.3",
+		"svelte-check": "^4.2.1",
+		"svelte-copy": "^2.0.0",
+		"tailwindcss": "^4.0.0",
+		"typescript": "^5.0.0",
+		"vite": "^6.3.5",
+		"vite-plugin-cross-origin-isolation": "^0.1.6",
+		"vite-plugin-devtools-json": "^0.2.1",
+		"vite-plugin-mkcert": "^1.17.8"
+	},
+	"dependencies": {
+		"hash-wasm": "^4.12.0",
+		"simple-encryptor": "^4.0.0"
+	},
+	"engines": {
+		"node": ">=22.12.0"
+	},
+	"keywords": [
+		"sveltekit",
+		"typescript"
+	]
+}
