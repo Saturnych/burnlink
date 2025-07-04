@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-vercel';
+import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { mdsvex } from 'mdsvex';
 
@@ -11,12 +11,12 @@ const config = {
 	extensions: ['.svelte', '.svx', '.md'],
 	preprocess: [vitePreprocess(), mdsvex({ extensions: ['.svx', '.md'] })],
 	kit: {
-		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
-		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
-		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
+		appDir: 'app', // Required as the default is _app
+		paths: {
+			base: dev ? '' : process.env.BASE_PATH
+		},
 		adapter: adapter({
-			//runtime: 'edge',
-			memory: 1024
+			fallback: 'index.html' // may differ from host to host
 		}),
 		prerender: {
 			handleHttpError: ({ path, referrer, message }) => {
