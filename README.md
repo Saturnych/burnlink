@@ -1,2 +1,3 @@
-# burnlink
-BurnLink - Share secrets &amp; links securely
+# About
+
+BurnLink - Share secrets & links securely
