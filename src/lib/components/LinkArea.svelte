@@ -203,11 +203,12 @@
 						clearLink();
 					}
 				}}
+				title="Redirect to result URL"
 				class={`h-6 w-6 shrink-0 bg-white dark:bg-neutral-800/60 checked:accent-gray-100 checked:dark:accent-gray-600`}
 			/>
 		</div>
 		<div class="relative flex w-full py-2 px-1">
-			Checked => auto redirect to result if the secre is URL
+			Checked => auto redirect to result if the secret is URL
 		</div>
 	</div>
 
@@ -360,6 +361,7 @@
 				bind:value={link}
 				rows="6"
 				cols="80"
+				title="Result link"
 				class={`w-full bg-transparent py-2 px-3 placeholder:text-neutral-600 focus:outline-none focus-visible:outline-none`}
 			></textarea>
 			{#if hasLink}
