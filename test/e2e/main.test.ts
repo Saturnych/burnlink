@@ -19,7 +19,7 @@ test('home page has expected h1', async ({ page }) => {
 	const h1 = page.locator('h1');
 	await expect(h1).toBeVisible();
 	await page.getByText('Show example').click();
-	await page.getByTitle('Redirect to result URL').uncheck();
+	await page.getByTitle('Redirect to result URL').uncheck(); // no redirect !
 	const linkTextarea = await page.getByTitle('Result link');
 	await expect(linkTextarea).toBeVisible();
 	await expect(linkTextarea).toBeDisabled();
