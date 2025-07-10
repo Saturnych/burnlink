@@ -93,12 +93,17 @@ export const isValidUrl = (str: string, checkHttp: boolean = false): boolean => 
 	}
 };
 
-// Validate Ethereum Address
-export const validateEthereumAddress = (address: unknown) => {
-	return /^(0x)?[0-9a-fA-F]{40}$/.test(address);
-};
+export const validateEmail = (email: string): boolean =>
+	!!String(email)
+		.toLowerCase()
+		.match(
+			/^(([^<>()[\]\\.,;:\s@']+(\.[^<>()[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g
+		);
 
-export const getRandomString = (): string => Math.random().toString(36).slice(-8);
+export const getRandomString = (num: number = 8): string =>
+	Math.random()
+		.toString(36)
+		.slice(-1 * (num > 36 ? 36 : num));
 
 export const hashCode = (text: string): string => {
 	let hash = 0,

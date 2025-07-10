@@ -1,6 +1,7 @@
 import type { ServerLoadEvent, RequestHandler, Response } from '@sveltejs/kit';
 import createEncryptor from 'simple-encryptor';
-import { parseJson, returnJson, isValidUrl, sleep, timeout } from '$lib/utils';
+import { returnJson, isValidUrl, sleep, timeout } from '$lib/utils';
+import { verifyToken } from '$lib/utils/auth';
 import { APP_NAME, APP_DOMAIN, APP_URL } from '$lib/vars/public';
 import ENV from '$lib/vars/private';
 const { DEBUG, PRIVATE_ENCRYPT_KEY = null, PRIVATE_ENCRYPT_SALT = 10 } = ENV;
@@ -18,10 +19,14 @@ const postHandler: RequestHandler = async (event: ServerLoadEvent): Response => 
 		let data: Record<string, string | string[] | number | boolean | object> = {
 			test: DEBUG
 		};
+		const authorization: string = request.headers.get('authorization');
+		const token: string = !!authorization ? authorization.split(' ').reverse()[0] : null;
+		const referer: string = request.headers.get('referer');
 		const contentType: string = request.headers.get('content-type');
 		if (
-			contentType.includes('multipart/form-data') ||
-			contentType.includes('application/x-www-form-urlencoded')
+			referer?.startsWith(APP_URL) &&
+			(contentType.includes('multipart/form-data') ||
+				contentType.includes('application/x-www-form-urlencoded'))
 		) {
 			const formData = await request.formData(); // .text() .formData() .json()
 			data['uid'] = formData?.get('uid');
@@ -31,7 +36,7 @@ const postHandler: RequestHandler = async (event: ServerLoadEvent): Response => 
 			data['expiry'] = Number(formData?.get('expiry') || '0');
 			data['redirectlink'] = String(formData?.get('redirectlink')) === 'true' ? true : false;
 			data['test'] = String(formData?.get('test')) === 'true' ? true : data['test'];
-		} else {
+		} else if ((!!token && verifyToken(token)) || (!!referer && referer.startsWith(APP_URL))) {
 			data = Object.assign(data, await request.json());
 			data['expiry'] = Number(data['expiry'] || '0');
 			data['redirectlink'] = String(data['redirectlink']) === 'true' ? true : false;
