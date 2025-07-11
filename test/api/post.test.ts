@@ -1,21 +1,33 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { config } from 'dotenv';
-import { getRandomString, isValidUrl } from '../../src/lib/utils';
+import { getRandomString, isValidUrl, sleep } from '../../src/lib/utils';
 import pkg from '../../package.json' with { type: 'json' };
 
+const TIMEOUT = 3000;
 const DEBUG = process.env.NODE_ENV !== 'production';
 
 if (DEBUG) config({ quiet: true });
 const { PUBLIC_APP_URL, PUBLIC_LINK_URI, PUBLIC_TOKEN_URI, PRIVATE_TOKEN_EMAIL } = process.env;
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
-test.beforeAll(() => {
-	console.log('PUBLIC_APP_URL:', PUBLIC_APP_URL);
+test.describe.configure({ mode: 'serial' });
+
+let page: Page;
+let link: string;
+
+test.beforeAll(async ({ browser }) => {
 	console.log('PUBLIC_LINK_URI:', PUBLIC_LINK_URI);
 	console.log('PUBLIC_TOKEN_URI:', PUBLIC_TOKEN_URI);
+	page = await browser.newPage();
 });
 
-test('api post request', async ({ page, request }) => {
+test.afterAll(async () => {
+	if (page) await page.close();
+	console.log('Done with api tests');
+});
+
+test('api post requests', async ({ request }) => {
+	await sleep(TIMEOUT);
 	const apiToken = await request.post(`${PUBLIC_APP_URL}${PUBLIC_TOKEN_URI}`, {
 		headers: {
 			'Content-Type': 'application/json',
@@ -39,7 +51,9 @@ test('api post request', async ({ page, request }) => {
 	expect(apiTokenBody.data.user).toBeDefined();
 
 	const token: string = apiTokenBody.data.token;
+	console.log('api post request token:', token?.length);
 
+	await sleep(TIMEOUT);
 	const response = await request.post(`${PUBLIC_APP_URL}${PUBLIC_LINK_URI}`, {
 		headers: {
 			Authorization: !!token ? `Bearer ${token}` : undefined,
@@ -47,7 +61,7 @@ test('api post request', async ({ page, request }) => {
 			Accept: 'application/json'
 		},
 		data: {
-			text: PUBLIC_APP_URL,
+			text: pkg.repository.url,
 			test: true
 		}
 	});
@@ -61,7 +75,16 @@ test('api post request', async ({ page, request }) => {
 	expect(responseBody.data.error).toBeNull();
 	expect(responseBody.data.link).toBeDefined();
 
-	await page.goto(responseBody.data.link, { waitUntil: 'domcontentloaded' });
+	link = responseBody.data.link;
+	console.log('api post request link:', link?.length);
+
+	await expect(isValidUrl(link)).toBe(true);
+	await expect(link.startsWith(PUBLIC_APP_URL)).toBe(true);
+});
+
+test('api page check', async () => {
+	console.log('page check link:', link?.length);
+	await page.goto(link, { waitUntil: 'domcontentloaded' });
 
 	const resultTitle = await page.title();
 	await expect(resultTitle).toBe(pkg.title);
@@ -74,9 +97,5 @@ test('api post request', async ({ page, request }) => {
 	const value = await textarea.inputValue();
 	await expect(value).toBeDefined();
 	await expect(isValidUrl(value)).toBe(true);
-	await expect(value).toBe(PUBLIC_APP_URL);
-});
-
-test.afterAll(() => {
-	console.log('Done with api tests');
+	await expect(value).toBe(pkg.repository.url);
 });
