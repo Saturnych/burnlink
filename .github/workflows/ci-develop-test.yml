@@ -74,7 +74,7 @@ jobs:
           # Required recipients' addresses devided by comas:
           to: ${{ secrets.PRIVATE_SMTP_NOTIFY }}
           # Required sender full name (address can be skipped):
-          from: 'Denis Glebko <${{ secrets.PRIVATE_SMTP_FROM }}>'
+          from: 'GitHub <${{ secrets.PRIVATE_SMTP_FROM }}>'
           # Optional plain body:
           body: |
             The tests for commit ${{ github.sha }} have the result status: ${{ job.status }}.
