@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { config } from 'dotenv';
 import { getRandomString, isValidUrl } from '../../src/lib/utils';
+import pkg from '../../package.json' with { type: 'json' };
 
 const DEBUG = process.env.NODE_ENV !== 'production';
 
@@ -60,6 +61,9 @@ test('api post request', async ({ page, request }) => {
 	expect(responseBody.data.link).toBeDefined();
 
 	await page.goto(responseBody.data.link, { waitUntil: 'domcontentloaded' });
+
+	const resultTitle = await page.title();
+	await expect(resultTitle).toBe(pkg.title);
 
 	const textarea = page.locator('textarea');
 	await expect(textarea).toBeVisible();
