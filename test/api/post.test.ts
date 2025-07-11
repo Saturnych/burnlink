@@ -18,7 +18,7 @@ const {
 	PRIVATE_VERCEL_USER_ID = null,
 	PRIVATE_VERCEL_PROJECT_ID = null,
 	PRIVATE_VERCEL_TOKEN = null,
-	SHA = null,
+	SHA = null
 } = process.env;
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
@@ -34,29 +34,41 @@ test.beforeAll(async ({ browser, request }) => {
 	console.log('PRIVATE_VERCEL_TOKEN:', PRIVATE_VERCEL_TOKEN?.length);
 	console.log('PRIVATE_VERCEL_TEAM_ID:', PRIVATE_VERCEL_TEAM_ID?.length);
 	// https://vercel.com/docs/rest-api/reference/endpoints/deployments/list-deployments
-	const response = await request.get(`https://api.vercel.com/v6/deployments?teamId=${PRIVATE_VERCEL_TEAM_ID}`, {
-		headers: {
-			'Authorization': !!PRIVATE_VERCEL_TOKEN ? `Bearer ${PRIVATE_VERCEL_TOKEN}` : undefined,
-			'Content-Type': 'application/json',
-			'Accept': 'application/json'
+	const response = await request.get(
+		`https://api.vercel.com/v6/deployments?teamId=${PRIVATE_VERCEL_TEAM_ID}`,
+		{
+			headers: {
+				Authorization: !!PRIVATE_VERCEL_TOKEN ? `Bearer ${PRIVATE_VERCEL_TOKEN}` : undefined,
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
+			}
 		}
-	});
+	);
 	console.log('response.ok():', response.ok());
 	console.log('response.status():', response.status());
 	//expect(response.ok()).toBeTruthy();
 	//expect(response.status()).toBe(200);
 	const result = await response.json();
 	if (!response.ok()) console.log('response result:', result);
-	if (result?.deployments?.length>0) {
+	if (result?.deployments?.length > 0) {
 		const deployment: object = result.deployments[0];
 		console.log('deployment.state:', deployment.state);
 		console.log('deployment.githubCommitSha:', deployment.meta.githubCommitSha);
-		if (((SHA && SHA === deployment.meta.githubCommitSha) || DEBUG) && deployment.state === 'READY') {
-
+		if (
+			((SHA && SHA === deployment.meta.githubCommitSha) || DEBUG) &&
+			deployment.state === 'READY'
+		) {
 		}
 		const date: Date = new Date(new Date().toISOString());
 		const spentSec: number = Math.round((date.getTime() - Number(deployment.created)) / 1000);
-		console.log('deployment.buildingAt:', deployment.buildingAt, 'deployment.ready:', deployment.ready, 'spent:', spentSec);
+		console.log(
+			'deployment.buildingAt:',
+			deployment.buildingAt,
+			'deployment.ready:',
+			deployment.ready,
+			'spent:',
+			spentSec
+		);
 	}
 
 	page = await browser.newPage();
@@ -72,7 +84,7 @@ test('api post requests', async ({ request }) => {
 	const apiToken = await request.post(`${PUBLIC_APP_URL}${PUBLIC_TOKEN_URI}`, {
 		headers: {
 			'Content-Type': 'application/json',
-			'Accept': 'application/json'
+			Accept: 'application/json'
 		},
 		data: {
 			email: PRIVATE_TOKEN_EMAIL,
@@ -97,9 +109,9 @@ test('api post requests', async ({ request }) => {
 	await sleep(TIMEOUT);
 	const response = await request.post(`${PUBLIC_APP_URL}${PUBLIC_LINK_URI}`, {
 		headers: {
-			'Authorization': !!token ? `Bearer ${token}` : undefined,
+			Authorization: !!token ? `Bearer ${token}` : undefined,
 			'Content-Type': 'application/json',
-			'Accept': 'application/json'
+			Accept: 'application/json'
 		},
 		data: {
 			text: pkg.repository.url,
