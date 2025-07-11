@@ -10,6 +10,7 @@ const { PUBLIC_APP_URL, PUBLIC_LINK_URI, PUBLIC_TOKEN_URI, PRIVATE_TOKEN_EMAIL }
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
 test.beforeAll(() => {
+	console.log('PUBLIC_APP_URL:', PUBLIC_APP_URL);
 	console.log('PUBLIC_LINK_URI:', PUBLIC_LINK_URI);
 	console.log('PUBLIC_TOKEN_URI:', PUBLIC_TOKEN_URI);
 });

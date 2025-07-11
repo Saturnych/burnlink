@@ -45,15 +45,12 @@ jobs:
           yarn
           yarn playwright install
           yarn test
-          
+
   email:
     # https://github.com/dawidd6/action-send-mail
     steps:
       - name: Send email notification
         uses: dawidd6/action-send-mail@v6
-        env:
-          # Optional http proxy:
-          # HTTP_PROXY: http://proxy.example.test:3128
         with:
           # Specify connection via URL (replaces server_address, server_port, secure, username and password)
           # Format:
