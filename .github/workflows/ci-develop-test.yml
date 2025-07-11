@@ -12,11 +12,11 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'tests'
+  group: 'develop'
   cancel-in-progress: false
 
 jobs:
-  build:
+  tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -43,4 +43,5 @@ jobs:
 
         run: |
           yarn
+          yarn playwright install
           yarn test
