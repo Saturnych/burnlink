@@ -44,7 +44,7 @@ jobs:
         run: |
           yarn
           yarn playwright install
-          yarn test
+          SHA=${{ github.sha }} npx playwright test
 
   email:
     runs-on: ubuntu-latest
