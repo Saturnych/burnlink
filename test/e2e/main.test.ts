@@ -32,7 +32,7 @@ test('home page has expected h1', async ({ page }) => {
 	await page.goto(linkValue, { waitUntil: 'domcontentloaded' });
 
 	const resultTitle = await page.title();
-	if (DEBUG) console.log('result title:', resultTitle);
+	await expect(resultTitle).toBe(pkg.title);
 
 	const resultTextarea = page.locator('textarea');
 	await expect(resultTextarea).toBeVisible();
@@ -40,7 +40,6 @@ test('home page has expected h1', async ({ page }) => {
 	await expect(resultTextarea).not.toBeEditable();
 
 	const resultValue = await resultTextarea.inputValue();
-	if (DEBUG) console.log('result value:', resultValue);
 	await expect(resultValue).toBeDefined();
 	await expect(isValidUrl(resultValue)).toBe(true);
 	await expect(resultValue).toBe(pkg.repository.url);
