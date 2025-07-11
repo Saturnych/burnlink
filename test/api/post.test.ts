@@ -52,7 +52,7 @@ test.beforeAll(async ({ browser, request }) => {
 		if (DEBUG) console.log('deployment:', deployment);
 		console.log('deployment.state:', deployment.state);
 		console.log('deployment.githubCommitSha:', deployment.meta.githubCommitSha);
-		if (SHA && SHA === deployment.meta.githubCommitSha && deployment.state === 'READY') {
+		if (((SHA && SHA === deployment.meta.githubCommitSha) || DEBUG) && deployment.state === 'READY') {
 
 		}
 		const date: Date = new Date(new Date().toISOString());
