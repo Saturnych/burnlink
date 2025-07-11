@@ -31,6 +31,8 @@ test.beforeAll(async ({ browser, request }) => {
 	console.log('SHA:', SHA);
 	console.log('PUBLIC_LINK_URI:', PUBLIC_LINK_URI);
 	console.log('PUBLIC_TOKEN_URI:', PUBLIC_TOKEN_URI);
+	console.log('PRIVATE_VERCEL_TOKEN:', PRIVATE_VERCEL_TOKEN?.length);
+	console.log('PRIVATE_VERCEL_TEAM_ID:', PRIVATE_VERCEL_TEAM_ID?.length);
 	// https://vercel.com/docs/rest-api/reference/endpoints/deployments/list-deployments
 	const response = await request.get(`https://api.vercel.com/v6/deployments?teamId=${PRIVATE_VERCEL_TEAM_ID}`, {
 		headers: {
