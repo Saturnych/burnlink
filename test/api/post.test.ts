@@ -49,7 +49,6 @@ test.beforeAll(async ({ browser, request }) => {
 	if (!response.ok()) console.log('response result:', result);
 	if (result?.deployments?.length>0) {
 		const deployment: object = result.deployments[0];
-		if (DEBUG) console.log('deployment:', deployment);
 		console.log('deployment.state:', deployment.state);
 		console.log('deployment.githubCommitSha:', deployment.meta.githubCommitSha);
 		if (((SHA && SHA === deployment.meta.githubCommitSha) || DEBUG) && deployment.state === 'READY') {
@@ -57,7 +56,7 @@ test.beforeAll(async ({ browser, request }) => {
 		}
 		const date: Date = new Date(new Date().toISOString());
 		const spentSec: number = Math.round((date.getTime() - Number(deployment.created)) / 1000);
-		console.log('deployment.ready:', deployment.ready, 'spent:', spentSec);
+		console.log('deployment.buildingAt:', deployment.buildingAt, 'deployment.ready:', deployment.ready, 'spent:', spentSec);
 	}
 
 	page = await browser.newPage();
