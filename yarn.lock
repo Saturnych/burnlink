@@ -403,24 +403,24 @@
     set-cookie-parser "^2.6.0"
     sirv "^3.0.0"
 
-"@sveltejs/vite-plugin-svelte-inspector@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.npmjs.org/@sveltejs/vite-plugin-svelte-inspector/-/vite-plugin-svelte-inspector-4.0.1.tgz"
-  integrity sha512-J/Nmb2Q2y7mck2hyCX4ckVHcR5tu2J+MtBEQqpDrrgELZ2uvraQcK/ioCV61AqkdXFgriksOKIceDcQmqnGhVw==
+"@sveltejs/vite-plugin-svelte-inspector@^5.0.0-next.1":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@sveltejs/vite-plugin-svelte-inspector/-/vite-plugin-svelte-inspector-5.0.0.tgz#6daf8fb9fced43390614caf449409371847ba655"
+  integrity sha512-iwQ8Z4ET6ZFSt/gC+tVfcsSBHwsqc6RumSaiLUkAurW3BCpJam65cmHw0oOlDMTO0u+PZi9hilBRYN+LZNHTUQ==
   dependencies:
-    debug "^4.3.7"
+    debug "^4.4.1"
 
-"@sveltejs/vite-plugin-svelte@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.npmjs.org/@sveltejs/vite-plugin-svelte/-/vite-plugin-svelte-5.1.0.tgz"
-  integrity sha512-wojIS/7GYnJDYIg1higWj2ROA6sSRWvcR1PO/bqEyFr/5UZah26c8Cz4u0NaqjPeVltzsVpt2Tm8d2io0V+4Tw==
+"@sveltejs/vite-plugin-svelte@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@sveltejs/vite-plugin-svelte/-/vite-plugin-svelte-6.0.0.tgz#4a1fbbac98f1eac46c7689515de3cd6ae4638499"
+  integrity sha512-mma5GJ23pYiWpTNbN//g9XI3Hfob3aAlXPP42qRtvjgTAU6pfJyLyNPTdLjFuj+jfC9JslP4J3AkeiJNhjtLLA==
   dependencies:
-    "@sveltejs/vite-plugin-svelte-inspector" "^4.0.1"
+    "@sveltejs/vite-plugin-svelte-inspector" "^5.0.0-next.1"
     debug "^4.4.1"
     deepmerge "^4.3.1"
     kleur "^4.1.5"
     magic-string "^0.30.17"
-    vitefu "^1.0.6"
+    vitefu "^1.1.1"
 
 "@tailwindcss/node@4.1.11":
   version "4.1.11"
@@ -556,10 +556,10 @@
   dependencies:
     "@types/unist" "*"
 
-"@types/node@^24.0.12":
-  version "24.0.12"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.0.12.tgz#3cf8719572145cfecf4cf9d180d8e7f74a61af00"
-  integrity sha512-LtOrbvDf5ndC9Xi+4QZjVL0woFymF/xSTKZKPgrrl7H7XoeDvnD+E2IclKVDyaK9UM756W/3BXqSU+JEHopA9g==
+"@types/node@^24.0.13":
+  version "24.0.13"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.0.13.tgz#93ed8c05c7b188a59760be0ce2ee3fa7ad0f83f6"
+  integrity sha512-Qm9OYVOFHFYg3wJoTSrz80hoec5Lia/dPp84do3X7dZvLikQvM1YpmvTBEdIr/e+U8HTkFjLHLnl78K/qjf+jQ==
   dependencies:
     undici-types "~7.8.0"
 
@@ -585,6 +585,11 @@
     node-gyp-build "^4.2.2"
     picomatch "^4.0.2"
     resolve-from "^5.0.0"
+
+"@vercel/sdk@^1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@vercel/sdk/-/sdk-1.9.0.tgz#19d7ee6b8b99544e5221e315c08fece8fc5e5d25"
+  integrity sha512-Zic62YEexipOzJd8LNDjbxVjR6VSW4xaTbkxigJBUTFMh2NxS0zevmA1oeC4/DanBbs3lVcQpBZy+Owey1GN+w==
 
 abbrev@^3.0.0:
   version "3.0.1"
@@ -744,7 +749,7 @@ cross-spawn@^7.0.6:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-debug@4, debug@^4.3.7, debug@^4.4.0, debug@^4.4.1:
+debug@4, debug@^4.4.0, debug@^4.4.1:
   version "4.4.1"
   resolved "https://registry.npmjs.org/debug/-/debug-4.4.1.tgz"
   integrity sha512-KcKCqiftBJcZr++7ykoDIEwSa3XWowTfNPo92BYxjXiyYEVrUQh2aLyhxBCwww+heortUFxEJYcRzosstTEBYQ==
@@ -1554,10 +1559,10 @@ svelte-copy@^2.0.0:
   resolved "https://registry.npmjs.org/svelte-copy/-/svelte-copy-2.0.0.tgz"
   integrity sha512-wJ784qrc9CF7EtrlT2kwJfHnqae/pp4fkgzYeUxex4iFBm6HosT2904t5cZZ1GAZzg/z9V+lCZVP5rpiYsN6Tw==
 
-svelte@^5.35.5:
-  version "5.35.5"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-5.35.5.tgz#53eb55a7dec1c1a65f453a3615ab346383bb2e16"
-  integrity sha512-KuRvI82rhh0RMz1EKsUJD96gZyHJ+h2+8zrwO8iqE/p/CmcNKvIItDUAeUePhuCDgtegDJmF8IKThbHIfmTgTA==
+svelte@^5.35.6:
+  version "5.35.6"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-5.35.6.tgz#690f9f4cc1be12620505ccc8460b8b69bb6877f0"
+  integrity sha512-p7PVLQYrvCxJuxzGfOv/l71hVuHC6EZk5UDjbt/bndMYaBcUV5sFjDsj+PSIYvz1vcfbG6inX83/xIUeik1xGA==
   dependencies:
     "@ampproject/remapping" "^2.3.0"
     "@jridgewell/sourcemap-codec" "^1.5.0"
@@ -1706,10 +1711,10 @@ vite@^7.0.4:
   optionalDependencies:
     fsevents "~2.3.3"
 
-vitefu@^1.0.6:
-  version "1.0.7"
-  resolved "https://registry.npmjs.org/vitefu/-/vitefu-1.0.7.tgz"
-  integrity sha512-eRWXLBbJjW3X5z5P5IHcSm2yYbYRPb2kQuc+oqsbAl99WB5kVsPbiiox+cymo8twTzifA6itvhr2CmjnaZZp0Q==
+vitefu@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/vitefu/-/vitefu-1.1.1.tgz#c39b7e4c91bf2f6c590fb96e0758f394dff5795b"
+  integrity sha512-B/Fegf3i8zh0yFbpzZ21amWzHmuNlLlmJT6n7bu5e+pCHUKQIfXSYokrqOBGEMMe9UG2sostKQF9mml/vYaWJQ==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
@@ -1758,3 +1763,8 @@ zimmerframe@^1.1.2:
   version "1.1.2"
   resolved "https://registry.npmjs.org/zimmerframe/-/zimmerframe-1.1.2.tgz"
   integrity sha512-rAbqEGa8ovJy4pyBxZM70hg4pE6gDgaQ0Sl9M3enG3I0d6H4XSAM3GeNGLKnsBpuijUow064sf7ww1nutC5/3w==
+
+zod@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-4.0.5.tgz#b47825f318e7884d94bcd6f5385a1de805ccfb1c"
+  integrity sha512-/5UuuRPStvHXu7RS+gmvRf4NXrNxpSllGwDnCBcJZtQsKrviYXm54yDGV2KYNLT5kq0lHGcl7lqWJLgSaG+tgA==
