@@ -39,6 +39,8 @@ test.beforeAll(async ({ browser, request }) => {
 			'Accept': 'application/json'
 		}
 	});
+	console.log('response.ok():', response.ok());
+	console.log('response.status():', response.status());
 	expect(response.ok()).toBeTruthy();
 	expect(response.status()).toBe(200);
 	const result = await response.json();
