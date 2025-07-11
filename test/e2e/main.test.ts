@@ -45,7 +45,6 @@ test('home page check', async () => {
 	link = await linkTextarea.inputValue();
 	await expect(isValidUrl(link)).toBeTruthy();
 	await expect(link.startsWith(PUBLIC_APP_URL)).toBeTruthy();
-
 	console.log('home page check result:', link?.length);
 });
 
