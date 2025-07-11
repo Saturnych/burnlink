@@ -40,11 +40,20 @@ jobs:
           PRIVATE_ENCRYPT_SALT: ${{ secrets.PRIVATE_ENCRYPT_SALT }}
           PRIVATE_TOKEN_SECRET: ${{ secrets.PRIVATE_TOKEN_SECRET }}
           PRIVATE_TOKEN_EMAIL: ${{ secrets.PRIVATE_TOKEN_EMAIL }}
+          PRIVATE_VERCEL_APP_NAME: ${{ secrets.PRIVATE_VERCEL_APP_NAME }}
+          PRIVATE_VERCEL_TEAM_SLUG: ${{ secrets.PRIVATE_VERCEL_TEAM_SLUG }}
+          PRIVATE_VERCEL_TEAM_ID: ${{ secrets.PRIVATE_VERCEL_TEAM_ID }}
+          PRIVATE_VERCEL_USER_ID: ${{ secrets.PRIVATE_VERCEL_USER_ID }}
+          PRIVATE_VERCEL_PROJECT_ID: ${{ secrets.PRIVATE_VERCEL_PROJECT_ID }}
+          PRIVATE_VERCEL_TOKEN: ${{ secrets.PRIVATE_VERCEL_TOKEN }}
+          SHA: ${{ github.sha }}
 
         run: |
           yarn
           yarn playwright install
-          SHA=${{ github.sha }} npx playwright test
+          npx playwright test
+
+        # SHA=${{ github.sha }} npx playwright test
 
   email:
     runs-on: ubuntu-latest
