@@ -1,0 +1,117 @@
+name: Development test workflow
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events but only for the "develop" branch
+  push:
+    branches: [develop]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'develop'
+  cancel-in-progress: false
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.12.0'
+          cache: 'yarn'
+
+      - name: Run tests
+        env:
+          PUBLIC_APP_NAME: ${{ vars.PUBLIC_APP_NAME }}
+          PUBLIC_APP_DOMAIN: ${{ vars.PUBLIC_APP_DOMAIN }}
+          PUBLIC_APP_URL: ${{ vars.PUBLIC_APP_URL }}
+          PUBLIC_LINK_URI: ${{ vars.PUBLIC_LINK_URI }}
+          PUBLIC_TOKEN_URI: ${{ vars.PUBLIC_TOKEN_URI }}
+          PRIVATE_ENCRYPT_KEY: ${{ secrets.PRIVATE_ENCRYPT_KEY }}
+          PRIVATE_ENCRYPT_SALT: ${{ secrets.PRIVATE_ENCRYPT_SALT }}
+          PRIVATE_TOKEN_SECRET: ${{ secrets.PRIVATE_TOKEN_SECRET }}
+          PRIVATE_TOKEN_EMAIL: ${{ secrets.PRIVATE_TOKEN_EMAIL }}
+          PRIVATE_VERCEL_APP_NAME: ${{ secrets.PRIVATE_VERCEL_APP_NAME }}
+          PRIVATE_VERCEL_TEAM_SLUG: ${{ secrets.PRIVATE_VERCEL_TEAM_SLUG }}
+          PRIVATE_VERCEL_TEAM_ID: ${{ secrets.PRIVATE_VERCEL_TEAM_ID }}
+          PRIVATE_VERCEL_USER_ID: ${{ secrets.PRIVATE_VERCEL_USER_ID }}
+          PRIVATE_VERCEL_PROJECT_ID: ${{ secrets.PRIVATE_VERCEL_PROJECT_ID }}
+          PRIVATE_VERCEL_TOKEN: ${{ secrets.PRIVATE_VERCEL_TOKEN }}
+          SHA: ${{ github.sha }}
+
+        run: |
+          yarn
+          yarn playwright install
+          npx playwright test
+
+        # SHA=${{ github.sha }} npx playwright test
+
+  email:
+    runs-on: ubuntu-latest
+    needs: tests
+
+    # https://github.com/dawidd6/action-send-mail
+    steps:
+      - name: Send email notification
+        uses: dawidd6/action-send-mail@v6
+        with:
+          # Specify connection via URL (replaces server_address, server_port, secure, username and password)
+          # Format:
+          #  * smtp://user:password@server:port
+          #  * smtp+starttls://user:password@server:port
+          # connection_url: smtp://user:password@server:port
+          # Required mail server address if not connection_url:
+          server_address: ${{ secrets.PRIVATE_SMTP_HOSTNAME }}
+          # Server port, default 25:
+          server_port: ${{ secrets.PRIVATE_SMTP_PORT }}
+          # Optional whether this connection use TLS (default is true if server_port is 465)
+          secure: true
+          # Optional (recommended) mail server username:
+          username: ${{ secrets.PRIVATE_SMTP_USERNAME }}
+          # Optional (recommended) mail server password:
+          password: ${{ secrets.PRIVATE_SMTP_PASSWORD }}
+          # Required mail subject:
+          subject: 'GitHub Actions: Tests ${{ job.status }}'
+          # Required recipients' addresses devided by comas:
+          to: ${{ secrets.PRIVATE_SMTP_NOTIFY }}
+          # Required sender full name (address can be skipped):
+          from: 'GitHub ${{ github.repository }}'
+          # Optional plain body:
+          body: |
+            The tests for commit ${{ github.sha }} have the result status: ${{ job.status }}.
+            See the details here: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          # Optional HTML body read from file:
+          # html_body: file://README.html
+          # Optional carbon copy recipients:
+          # cc: kyloren@example.com,leia@example.com
+          # Optional blind carbon copy recipients:
+          # bcc: r2d2@example.com,hansolo@example.com
+          # Optional recipient of the email response:
+          # reply_to: luke@example.com
+          # Optional Message ID this message is replying to:
+          # in_reply_to: <random-luke@example.com>
+          # Optional unsigned/invalid certificates allowance:
+          # ignore_cert: true
+          # Optional converting Markdown to HTML (set content_type to text/html too):
+          # convert_markdown: true
+          # Optional attachments:
+          # attachments: attachments.zip,git.diff,./dist/static/*.js
+          # Optional priority: 'high', 'normal' (default) or 'low'
+          # priority: low
+          # Optional nodemailerlog: true/false
+          # nodemailerlog: false
+          # Optional nodemailerdebug: true/false if true lognodem will also be set true
+          # nodemailerdebug: false
+          # Optional custom SMTP MAIL FROM address (overrides username):
+          # envelope_from: mailer@example.com
+          # Optional custom SMTP RCPT TO addresses (overrides to, cc, bcc):
+          # envelope_to: mailer@example.com,admin@example.com
