@@ -27,12 +27,7 @@ test.describe.configure({ mode: 'serial' });
 let page: Page;
 let link: string;
 
-test.beforeAll(async ({ browser, request }) => {
-	console.log('SHA:', SHA);
-	console.log('PUBLIC_LINK_URI:', PUBLIC_LINK_URI);
-	console.log('PUBLIC_TOKEN_URI:', PUBLIC_TOKEN_URI);
-	console.log('PRIVATE_VERCEL_TOKEN:', PRIVATE_VERCEL_TOKEN?.length);
-	console.log('PRIVATE_VERCEL_TEAM_ID:', PRIVATE_VERCEL_TEAM_ID?.length);
+const getDeployments = async (request): Promise<object[]> => {
 	// https://vercel.com/docs/rest-api/reference/endpoints/deployments/list-deployments
 	const response = await request.get(
 		`https://api.vercel.com/v6/deployments?teamId=${PRIVATE_VERCEL_TEAM_ID}`,
@@ -46,29 +41,44 @@ test.beforeAll(async ({ browser, request }) => {
 	);
 	console.log('response.ok():', response.ok());
 	console.log('response.status():', response.status());
-	//expect(response.ok()).toBeTruthy();
-	//expect(response.status()).toBe(200);
-	const result = await response.json();
-	if (!response.ok()) console.log('response result:', result);
-	if (result?.deployments?.length > 0) {
-		const deployment: object = result.deployments[0];
-		console.log('deployment.state:', deployment.state);
-		console.log('deployment.githubCommitSha:', deployment.meta.githubCommitSha);
-		if (
-			((SHA && SHA === deployment.meta.githubCommitSha) || DEBUG) &&
-			deployment.state === 'READY'
-		) {
+	if (response.ok() && Number(response.status()) === 200) {
+		const result = await response.json();
+		return result?.deployments;
+	} else return null;
+};
+
+test.beforeAll(async ({ browser, request }) => {
+	console.log('SHA:', SHA);
+	console.log('PUBLIC_LINK_URI:', PUBLIC_LINK_URI);
+	console.log('PUBLIC_TOKEN_URI:', PUBLIC_TOKEN_URI);
+	console.log('PRIVATE_VERCEL_TOKEN:', PRIVATE_VERCEL_TOKEN?.length);
+	console.log('PRIVATE_VERCEL_TEAM_ID:', PRIVATE_VERCEL_TEAM_ID?.length);
+	let done: boolean = false;
+	while (!done) {
+		const deployments = await getDeployments(request);
+		if (deployments?.length > 0) {
+			const deployment: object = deployments[0];
+			console.log('deployment.state:', deployment.state);
+			console.log('deployment.githubCommitSha:', deployment.meta.githubCommitSha);
+			const date: Date = new Date(new Date().toISOString());
+			const spentSec: number = Math.round((date.getTime() - Number(deployment.ready)) / 1000);
+			console.log(
+				'deployment.buildingAt:',
+				deployment.buildingAt,
+				'deployment.ready:',
+				deployment.ready,
+				'spent:',
+				spentSec
+			);
+			if (
+				((SHA && SHA === deployment.meta.githubCommitSha) || DEBUG) &&
+				deployment.state === 'READY'
+			) {
+				done = true;
+			} else {
+				await sleep(TIMEOUT);
+			}
 		}
-		const date: Date = new Date(new Date().toISOString());
-		const spentSec: number = Math.round((date.getTime() - Number(deployment.created)) / 1000);
-		console.log(
-			'deployment.buildingAt:',
-			deployment.buildingAt,
-			'deployment.ready:',
-			deployment.ready,
-			'spent:',
-			spentSec
-		);
 	}
 
 	page = await browser.newPage();
