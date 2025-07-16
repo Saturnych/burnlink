@@ -13,11 +13,11 @@
 ## Technical Implementation  
 - **Frontend**: SvelteKit, Typescript, Tailwind CSS
 - **Backend**: API based on SvelteKit and Typescript
+- **Security**: Token-based API access control
 - **Hosting**: Automatically deployed on Vercel
 - **Testing**:
   - Playwright for end-to-end testing
   - GitHub Actions for automated test execution
-- **Security**: Token-based API access control
 
 ## Development & CI/CD  
 - **Vercel Hosting**: Automatic deployments from GitHub repository  
