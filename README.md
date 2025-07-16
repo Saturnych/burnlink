@@ -3,12 +3,12 @@
 **BurnLink** is a privacy-focused web application designed for secrets or links encryption to share them securely.
 
 ## Key Features  
-✅ **No Persistent Storage** – No backend or browser storage used for the secrets
-✅ **Unique Links** – Generates encrypted URLs for secure access  
-✅ **Modern Stack** – Powered by SvelteKit and Tailwind CSS, deployed on Vercel
-✅ **End-to-End Testing** – Comprehensive browser testing using Playwright
-✅ **CI/CD Pipeline** – GitHub workflows for testing and email notification if tests succeed
-✅ **End-to-End Testing** – Comprehensive browser testing using Playwright
+- ✅ **No Persistent Storage** – No backend or browser storage used for the secrets
+- ✅ **Unique Links** – Generates encrypted URLs for secure access  
+- ✅ **Modern Stack** – Powered by SvelteKit and Tailwind CSS, deployed on Vercel
+- ✅ **End-to-End Testing** – Comprehensive browser testing using Playwright
+- ✅ **CI/CD Pipeline** – GitHub workflows for testing and email notification if tests succeed
+- ✅ **End-to-End Testing** – Comprehensive browser testing using Playwright
 
 ## Technical Implementation  
 - **Frontend**: SvelteKit, Typescript, Tailwind CSS
