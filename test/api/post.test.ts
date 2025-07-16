@@ -4,6 +4,7 @@ import { getRandomString, isValidUrl, sleep } from '../../src/lib/utils';
 import pkg from '../../package.json' with { type: 'json' };
 
 const TIMEOUT = 3000;
+const TIMEOUTLONG = 5000;
 const DEBUG = process.env.NODE_ENV !== 'production';
 
 if (DEBUG) config({ quiet: true });
@@ -53,6 +54,7 @@ test.beforeAll(async ({ browser, request }) => {
 	console.log('PUBLIC_TOKEN_URI:', PUBLIC_TOKEN_URI);
 	console.log('PRIVATE_VERCEL_TOKEN:', PRIVATE_VERCEL_TOKEN?.length);
 	console.log('PRIVATE_VERCEL_TEAM_ID:', PRIVATE_VERCEL_TEAM_ID?.length);
+	await sleep(TIMEOUTLONG);
 	let done: boolean = false;
 	while (!done) {
 		const deployments = await getDeployments(request);
@@ -76,7 +78,7 @@ test.beforeAll(async ({ browser, request }) => {
 			) {
 				done = true;
 			} else {
-				await sleep(TIMEOUT);
+				await sleep(TIMEOUTLONG);
 			}
 		}
 	}
