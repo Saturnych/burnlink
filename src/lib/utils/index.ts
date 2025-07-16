@@ -1,6 +1,9 @@
 import type { LoadEvent, ServerLoadEvent, RequestHandler, Response } from '@sveltejs/kit';
 import { error, json, text } from '@sveltejs/kit';
+import short from 'short-uuid';
 import * as hashwasm from 'hash-wasm';
+
+const TIMEOUT = 10000;
 
 export const postForm = async (frm: Record<string, unknown>, uri: string): Record<string, any> => {
 	const ret = {
@@ -29,6 +32,29 @@ export const postForm = async (frm: Record<string, unknown>, uri: string): Recor
 		ret.data = err;
 	}
 	return ret;
+};
+
+export const lockResource = (frm: Record<string, unknown>, uri: string) => {
+	if (navigator && 'locks' in navigator) {
+		const resource: string = `${frm.uid}_${short.uuid()}`;
+		navigator.locks.request(resource, { ifAvailable: false }, async (lock) => {
+			if (!!lock?.name) {
+				if (DEBUG) console.log(`%cResource '${resource}' occupied`, 'color: yellow');
+				try {
+					let { promise, resolve, reject } = Promise.withResolvers();
+
+					const result: object = await Promise.race([promise, timeout(TIMEOUT, { error: 'timeout', uid })]);
+
+					if (DEBUG) console.log('lockResource() result:', result);
+				} catch (err) {
+					console.error('error:', err);
+				}
+				if (DEBUG) console.log(`%cResource '${resource}' free`, 'color: yellow');
+			} else {
+				if (DEBUG) console.log(`%cResource '${resource}' is blocked`, 'color: red');
+			}
+		});
+	}
 };
 
 export const normalize = (str: string): string => {

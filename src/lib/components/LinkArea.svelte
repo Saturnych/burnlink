@@ -54,6 +54,7 @@
 		states.expiry.before = Number(`${expiry}`);
 		states.redirectlink.before = String(redirectlink) === 'true';
 		states.link.before = `${link}`;
+		document.getElementById('clearbutton')?.setAttribute('disabled', true);
 	};
 
 	const showPassword = (show: boolean = true): void => {
@@ -91,8 +92,8 @@
 
 	const getLink = async (): void => {
 		await sleep(50);
+		copyStates();
 		if (hasText) {
-			copyStates();
 			const result = await postForm(
 				{
 					uid: uid.get(),
@@ -112,6 +113,7 @@
 				document.getElementById('copybutton')?.removeAttribute('disabled');
 				document.getElementById('openbutton')?.removeAttribute('disabled');
 				document.getElementById('getbutton')?.removeAttribute('disabled');
+				document.getElementById('clearbutton')?.removeAttribute('disabled');
 			}
 		} else {
 			document.getElementById('getbutton')?.setAttribute('disabled', true);
@@ -177,6 +179,7 @@
 			{#if hasText}
 				<button
 					onclick={() => clearText()}
+					id="clearbutton"
 					title="Clear text field"
 					class="absolute top-[50%] right-3 flex translate-y-[-50%] items-center justify-center text-xl text-neutral-600 hover:text-neutral-500 focus:outline-none"
 				>

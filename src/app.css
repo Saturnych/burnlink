@@ -33,3 +33,7 @@ body {
 	background: var(--neutral-600);
 	-webkit-border-radius: 1ex;
 }
+
+textarea {
+  resize: none;
+}
