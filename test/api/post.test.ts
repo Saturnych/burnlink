@@ -5,6 +5,7 @@ import pkg from '../../package.json' with { type: 'json' };
 
 const TIMEOUT = 3000;
 const TIMEOUTLONG = 5000;
+const MAXRETRIES = 10;
 const DEBUG = process.env.NODE_ENV !== 'production';
 
 if (DEBUG) config({ quiet: true });
@@ -56,29 +57,35 @@ test.beforeAll(async ({ browser, request }) => {
 	console.log('PRIVATE_VERCEL_TEAM_ID:', PRIVATE_VERCEL_TEAM_ID?.length);
 	await sleep(TIMEOUTLONG);
 	let done: boolean = false;
+	let retried: number = 0;
 	while (!done) {
-		const deployments = await getDeployments(request);
-		if (deployments?.length > 0) {
-			const deployment: object = deployments[0];
-			console.log('deployment.state:', deployment.state);
-			console.log('deployment.githubCommitSha:', deployment.meta.githubCommitSha);
-			const date: Date = new Date(new Date().toISOString());
-			const spentSec: number = Math.round((date.getTime() - Number(deployment.buildingAt)) / 1000);
-			console.log(
-				'deployment.buildingAt:',
-				deployment.buildingAt,
-				'deployment.ready:',
-				deployment.ready,
-				'spent:',
-				spentSec
-			);
-			if (
-				((SHA && SHA === deployment.meta.githubCommitSha) || DEBUG) &&
-				deployment.state === 'READY'
-			) {
-				done = true;
-			} else {
-				await sleep(TIMEOUTLONG);
+		if (retried>MAXRETRIES) {
+			done = true;
+		} else {
+			const deployments = await getDeployments(request);
+			if (deployments?.length > 0) {
+				const deployment: object = deployments[0];
+				console.log('deployment.state:', deployment.state);
+				console.log('deployment.githubCommitSha:', deployment.meta.githubCommitSha);
+				const date: Date = new Date(new Date().toISOString());
+				const spentSec: number = Math.round((date.getTime() - Number(deployment.buildingAt)) / 1000);
+				console.log(
+					'deployment.buildingAt:',
+					deployment.buildingAt,
+					'deployment.ready:',
+					deployment.ready,
+					'spent:',
+					spentSec
+				);
+				if (
+					((SHA && SHA === deployment.meta.githubCommitSha) || DEBUG) &&
+					deployment.state === 'READY'
+				) {
+					done = true;
+				} else {
+					retried++;
+					await sleep(TIMEOUTLONG);
+				}
 			}
 		}
 	}
