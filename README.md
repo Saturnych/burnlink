@@ -29,4 +29,4 @@
   - Cross-browser compatibility
   - Backend API tests
 
-[**GitHub Repository**](https://github.com/Saturnych/burnlink)  
+[**Live Demo**](https://burnlink.ru) | [**GitHub Repository**](https://github.com/Saturnych/burnlink)
