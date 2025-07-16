@@ -61,7 +61,7 @@ test.beforeAll(async ({ browser, request }) => {
 			console.log('deployment.state:', deployment.state);
 			console.log('deployment.githubCommitSha:', deployment.meta.githubCommitSha);
 			const date: Date = new Date(new Date().toISOString());
-			const spentSec: number = Math.round((date.getTime() - Number(deployment.ready)) / 1000);
+			const spentSec: number = Math.round((date.getTime() - Number(deployment.buildingAt)) / 1000);
 			console.log(
 				'deployment.buildingAt:',
 				deployment.buildingAt,
