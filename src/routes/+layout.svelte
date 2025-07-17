@@ -7,6 +7,7 @@
 	import type { BrowserTheme } from '$lib/types';
 	import Footer from '$lib/components/Footer.svelte';
 	import '../app.css';
+	//import '../fonts.css';
 
 	let { children } = $props();
 
