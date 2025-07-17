@@ -8,9 +8,6 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import '../app.css';
 
-	const title = __TITLE__;
-	const description = __DESC__;
-
 	let { children } = $props();
 
 	let showLoader: boolean = $state(true);
@@ -27,7 +24,7 @@
 					const { components, hash } = parseFingerprint2(comps);
 					const fp2Hash = hashWithTextEncoder(hash);
 					//if (DEBUG) console.log('components:', components);
-					//if (DEBUG) console.log('fp2Hash:', fp2Hash);
+					if (DEBUG) console.log('fp2Hash:', fp2Hash);
 					uid.update(fp2Hash);
 				});
 		};
@@ -41,11 +38,6 @@
 		showLoader = false;
 	});
 </script>
-
-<svelte:head>
-	<title>{title}</title>
-	<meta name="description" content={description} />
-</svelte:head>
 
 <div
 	id="loader"
