@@ -4,7 +4,7 @@ import { generateToken } from '$lib/utils/auth';
 import ENV from '$lib/vars/private';
 const { DEBUG, PRIVATE_TOKEN_SECRET = null } = ENV;
 
-const postHandler: RequestHandler = async (event: ServerLoadEvent): Response => {
+const postHandler: RequestHandler = async (event: ServerLoadEvent): Promise<Response> => {
 	const result: Record<string, string | string[] | number | boolean | object> = {
 		error: null,
 		token: null,

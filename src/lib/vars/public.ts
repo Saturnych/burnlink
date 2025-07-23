@@ -12,3 +12,5 @@ export const APP_NAME: string = ENV.PUBLIC_APP_NAME || 'app';
 export const APP_DOMAIN: string = ENV.PUBLIC_APP_DOMAIN || null;
 export const APP_URL: string = ENV.PUBLIC_APP_URL || null;
 export const LINK_URI: string = ENV.PUBLIC_LINK_URI || null;
+export const TOKEN_URI: string = ENV.PUBLIC_TOKEN_URI || null;
+export const TURNSTILE_SITEKEY: string = ENV.PUBLIC_TURNSTILE_SITEKEY || null;

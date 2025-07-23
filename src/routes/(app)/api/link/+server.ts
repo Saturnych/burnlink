@@ -1,14 +1,14 @@
 import type { ServerLoadEvent, RequestHandler, Response } from '@sveltejs/kit';
 import createEncryptor from 'simple-encryptor';
-import { returnJson, isValidUrl, sleep, timeout } from '$lib/utils';
+import { postForm, returnJson, isValidUrl, sleep, timeout } from '$lib/utils';
 import { verifyToken } from '$lib/utils/auth';
 import { APP_NAME, APP_DOMAIN, APP_URL } from '$lib/vars/public';
 import ENV from '$lib/vars/private';
-const { DEBUG, PRIVATE_ENCRYPT_KEY = null, PRIVATE_ENCRYPT_SALT = 10 } = ENV;
+const { DEBUG, PRIVATE_TURNSTILE_SECRETKEY, PRIVATE_ENCRYPT_KEY = null, PRIVATE_ENCRYPT_SALT = 10 } = ENV;
 
 const TIMEOUT = 5000;
 
-const postHandler: RequestHandler = async (event: ServerLoadEvent): Response => {
+const postHandler: RequestHandler = async (event: ServerLoadEvent): Promise<Response> => {
 	const result: Record<string, string | string[] | number | boolean | object> = {
 		error: null,
 		link: null,
@@ -19,16 +19,19 @@ const postHandler: RequestHandler = async (event: ServerLoadEvent): Response => 
 		let data: Record<string, string | string[] | number | boolean | object> = {
 			test: DEBUG
 		};
+		if (DEBUG) console.log(request.headers);
 		const authorization: string = request.headers.get('authorization');
 		const token: string = !!authorization ? authorization.split(' ').reverse()[0] : null;
-		const referer: string = request.headers.get('referer');
 		const contentType: string = request.headers.get('content-type');
+		const referer: string = request.headers.get('referer');
+		const remoteip: string = request.headers.get('CF-Connecting-IP') || request.headers.get('x-forwarded-for')?.split(/\s*,\s*/)[0] || '127.0.0.1';
 		if (
 			referer?.startsWith(APP_URL) &&
 			(contentType.includes('multipart/form-data') ||
 				contentType.includes('application/x-www-form-urlencoded'))
 		) {
 			const formData = await request.formData(); // .text() .formData() .json()
+			data['cf-turnstile-response'] = formData?.get('cf-turnstile-response');
 			data['uid'] = formData?.get('uid');
 			data['link'] = formData?.get('link');
 			data['password'] = formData?.get('password');
@@ -43,11 +46,24 @@ const postHandler: RequestHandler = async (event: ServerLoadEvent): Response => 
 			data['test'] = String(data['test']) === 'true' ? true : data['test'];
 		}
 		if (DEBUG) console.log('POST data:', data);
+		if (DEBUG) console.log('POST remoteip:', remoteip);
 
 		const { expiry, link, password, redirectlink, text, uid } = data;
 		if (!text && !link) {
 			result.error = 'No data!';
 			throw new Error(result.error);
+		}
+
+		if (PRIVATE_TURNSTILE_SECRETKEY && !!data['cf-turnstile-response']) {
+			const result = await postForm(
+				{
+					secret: PRIVATE_TURNSTILE_SECRETKEY,
+					response: data['cf-turnstile-response'],
+					remoteip,
+				},
+				'https://challenges.cloudflare.com/turnstile/v0/siteverify'
+			);
+			if (DEBUG) console.log('turnstile result:', result);
 		}
 
 		if (PRIVATE_ENCRYPT_KEY) {
