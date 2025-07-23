@@ -9,7 +9,7 @@
 	<meta name="description" content={description} />
 </svelte:head>
 
-<div class="mt-auto">
+<div class="mt-auto hidden">
 	<div class="flex flex-wrap items-center justify-left text-neutral-50/20 gap-4 py-4">
 		<a href="/" {title}>home</a> | <a href="https://denotes.ru" title="denotes.ru" target="_blank">denotes.ru</a>
 	</div>
