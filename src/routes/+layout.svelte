@@ -5,6 +5,7 @@
 	import { delay, hashWithTextEncoder, parseFingerprint2 } from '$lib/utils';
 	import { DEBUG } from '$lib/vars/public';
 	import type { BrowserTheme } from '$lib/types';
+	import Head from '$lib/components/Head.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import '../app.css';
 	//import '../fonts.css';
@@ -40,10 +41,7 @@
 	});
 </script>
 
-<svelte:head>
-	<noscript>You need to enable JavaScript to run this app.</noscript>
-	<script src="https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.4/dist/fingerprint2.min.js"></script>
-</svelte:head>
+<Head />
 
 <div
 	id="loader"
