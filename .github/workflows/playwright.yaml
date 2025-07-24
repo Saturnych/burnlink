@@ -4,7 +4,6 @@ on:
   workflow_call:
     outputs:
       status:
-        required: true
         type: string
 
 jobs:
