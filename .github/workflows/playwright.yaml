@@ -4,7 +4,6 @@ on:
   workflow_call:
     outputs:
       status:
-        type: string
 
 jobs:
   test:
