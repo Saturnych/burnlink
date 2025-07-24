@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 jobs:
-  send:
+  test:
     runs-on: ubuntu-latest
 
     outputs:
