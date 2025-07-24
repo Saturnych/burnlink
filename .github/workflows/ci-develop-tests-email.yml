@@ -16,14 +16,14 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  tests:
+  playwright:
     uses: './.github/workflows/playwright.yaml'
     secrets: inherit
 
   email:
-    needs: tests
+    needs: playwright
     uses: './.github/workflows/email.yaml'
     with:
       name: 'Tests'
-      status: ${{ needs.tests.outputs.status }}
+      status: ${{ needs.playwright.outputs.status }}
     secrets: inherit
