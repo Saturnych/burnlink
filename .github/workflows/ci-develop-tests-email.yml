@@ -25,5 +25,5 @@ jobs:
     uses: './.github/workflows/email.yaml'
     with:
       name: 'Tests'
-      status: ${{ needs.playwright.outputs.status }}
+      status: ${{ needs.deploy.outputs.status }}
     secrets: inherit
