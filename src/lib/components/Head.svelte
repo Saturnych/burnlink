@@ -6,5 +6,5 @@
 <svelte:head>
 	<title>{title}</title>
 	<meta name="description" content={description} />
-	<script src="https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.4/dist/fingerprint2.min.js" async></script>
+	<script async src="https://cdn.jsdelivr.net/npm/fingerprintjs2@2.1.4/dist/fingerprint2.min.js"></script>
 </svelte:head>
