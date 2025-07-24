@@ -1,13 +1,9 @@
 name: Playwright tests
 
-on:
-  workflow_call:
-    inputs:
-
 jobs:
   send:
     runs-on: ubuntu-latest
-    
+
     outputs:
       status: ${{ job.status }}
 
