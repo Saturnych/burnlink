@@ -6,6 +6,7 @@
 	import { DEBUG } from '$lib/vars/public';
 	import type { BrowserTheme } from '$lib/types';
 	import Head from '$lib/components/Head.svelte';
+	import Metrika from '$lib/components/Metrika.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import '../app.css';
 	//import '../fonts.css';
@@ -42,6 +43,7 @@
 </script>
 
 <Head />
+<Metrika />
 
 <div
 	id="loader"
