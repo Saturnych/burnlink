@@ -3,7 +3,7 @@ name: Playwright tests
 on:
   workflow_call:
     outputs:
-      status: ${{ job.status }}
+      status: ${{ test.outputs.status }}
 
 jobs:
   test:
