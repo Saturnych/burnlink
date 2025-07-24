@@ -1,10 +1,11 @@
 import { expect, test, type Page } from '@playwright/test';
 import { config } from 'dotenv';
-import { getRandomString, isValidUrl, sleep } from '../../src/lib/utils';
+import { getRandomString, isNumeric, isValidUrl, sleep } from '../../src/lib/utils';
 import pkg from '../../package.json' with { type: 'json' };
 
 const TIMEOUT = 3000;
 const TIMEOUTLONG = 5000;
+const TIMEOUTVERYLONG = 60000;
 const MAXRETRIES = 10;
 const DEBUG = process.env.NODE_ENV !== 'production';
 
@@ -68,7 +69,7 @@ test.beforeAll(async ({ browser, request }) => {
 				console.log('deployment.state:', deployment.state);
 				console.log('deployment.githubCommitSha:', deployment.meta.githubCommitSha);
 				const date: Date = new Date(new Date().toISOString());
-				const spentSec: number = Math.round((date.getTime() - Number(deployment.buildingAt)) / 1000);
+				const spentSec: number = isNumeric(deployment.buildingAt) ? Math.round((date.getTime() - Number(deployment.buildingAt)) / 1000) : null;
 				console.log(
 					'deployment.buildingAt:',
 					deployment.buildingAt,
@@ -84,7 +85,8 @@ test.beforeAll(async ({ browser, request }) => {
 					done = true;
 				} else {
 					retried++;
-					await sleep(TIMEOUTLONG);
+					const timeout: number = deployment.state === 'QUEUED' ? TIMEOUTVERYLONG : TIMEOUTLONG;
+					await sleep(timeout);
 				}
 			}
 		}
