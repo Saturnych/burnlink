@@ -1,0 +1,43 @@
+name: Playwright tests
+
+on:
+  workflow_call:
+    inputs:
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.12.0'
+          cache: 'yarn'
+
+      - name: Run tests
+        env:
+          PUBLIC_APP_NAME: ${{ vars.PUBLIC_APP_NAME }}
+          PUBLIC_APP_DOMAIN: ${{ vars.PUBLIC_APP_DOMAIN }}
+          PUBLIC_APP_URL: ${{ vars.PUBLIC_APP_URL }}
+          PUBLIC_LINK_URI: ${{ vars.PUBLIC_LINK_URI }}
+          PUBLIC_TOKEN_URI: ${{ vars.PUBLIC_TOKEN_URI }}
+          PRIVATE_ENCRYPT_KEY: ${{ secrets.PRIVATE_ENCRYPT_KEY }}
+          PRIVATE_ENCRYPT_SALT: ${{ secrets.PRIVATE_ENCRYPT_SALT }}
+          PRIVATE_TOKEN_SECRET: ${{ secrets.PRIVATE_TOKEN_SECRET }}
+          PRIVATE_TOKEN_EMAIL: ${{ secrets.PRIVATE_TOKEN_EMAIL }}
+          PRIVATE_VERCEL_APP_NAME: ${{ secrets.PRIVATE_VERCEL_APP_NAME }}
+          PRIVATE_VERCEL_TEAM_SLUG: ${{ secrets.PRIVATE_VERCEL_TEAM_SLUG }}
+          PRIVATE_VERCEL_TEAM_ID: ${{ secrets.PRIVATE_VERCEL_TEAM_ID }}
+          PRIVATE_VERCEL_USER_ID: ${{ secrets.PRIVATE_VERCEL_USER_ID }}
+          PRIVATE_VERCEL_PROJECT_ID: ${{ secrets.PRIVATE_VERCEL_PROJECT_ID }}
+          PRIVATE_VERCEL_TOKEN: ${{ secrets.PRIVATE_VERCEL_TOKEN }}
+          SHA: ${{ github.sha }}
+
+        run: |
+          yarn
+          yarn playwright install
+          npx playwright test
