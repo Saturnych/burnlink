@@ -30,7 +30,10 @@ const config = {
 				throw new Error(message);
 			}
 		},
-		csrf: { checkOrigin: false }
+		csrf: { checkOrigin: false },
+		experimental: {
+			remoteFunctions: true
+		},
 	}
 };
 
