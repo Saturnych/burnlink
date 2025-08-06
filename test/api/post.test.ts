@@ -60,7 +60,7 @@ test.beforeAll(async ({ browser, request }) => {
 	let done: boolean = false;
 	let retried: number = 0;
 	while (!done) {
-		if (retried>MAXRETRIES) {
+		if (retried > MAXRETRIES) {
 			done = true;
 		} else {
 			const deployments = await getDeployments(request);
@@ -69,7 +69,9 @@ test.beforeAll(async ({ browser, request }) => {
 				console.log('deployment.state:', deployment.state);
 				console.log('deployment.githubCommitSha:', deployment.meta.githubCommitSha);
 				const date: Date = new Date(new Date().toISOString());
-				const spentSec: number = isNumeric(deployment.buildingAt) ? Math.round((date.getTime() - Number(deployment.buildingAt)) / 1000) : null;
+				const spentSec: number = isNumeric(deployment.buildingAt)
+					? Math.round((date.getTime() - Number(deployment.buildingAt)) / 1000)
+					: null;
 				console.log(
 					'deployment.buildingAt:',
 					deployment.buildingAt,

@@ -4,7 +4,12 @@ import { postForm, returnJson, isValidUrl, sleep, timeout } from '$lib/utils';
 import { verifyToken } from '$lib/utils/auth';
 import { APP_NAME, APP_DOMAIN, APP_URL } from '$lib/vars/public';
 import ENV from '$lib/vars/private';
-const { DEBUG, PRIVATE_TURNSTILE_SECRETKEY, PRIVATE_ENCRYPT_KEY = null, PRIVATE_ENCRYPT_SALT = 10 } = ENV;
+const {
+	DEBUG,
+	PRIVATE_TURNSTILE_SECRETKEY,
+	PRIVATE_ENCRYPT_KEY = null,
+	PRIVATE_ENCRYPT_SALT = 10
+} = ENV;
 
 const TIMEOUT = 5000;
 
@@ -24,7 +29,10 @@ const postHandler: RequestHandler = async (event: ServerLoadEvent): Promise<Resp
 		const token: string = !!authorization ? authorization.split(' ').reverse()[0] : null;
 		const contentType: string = request.headers.get('content-type');
 		const referer: string = request.headers.get('referer');
-		const remoteip: string = request.headers.get('CF-Connecting-IP') || request.headers.get('x-forwarded-for')?.split(/\s*,\s*/)[0] || '127.0.0.1';
+		const remoteip: string =
+			request.headers.get('CF-Connecting-IP') ||
+			request.headers.get('x-forwarded-for')?.split(/\s*,\s*/)[0] ||
+			'127.0.0.1';
 		if (
 			referer?.startsWith(APP_URL) &&
 			(contentType.includes('multipart/form-data') ||
@@ -59,7 +67,7 @@ const postHandler: RequestHandler = async (event: ServerLoadEvent): Promise<Resp
 				{
 					secret: PRIVATE_TURNSTILE_SECRETKEY,
 					response: data['cf-turnstile-response'],
-					remoteip,
+					remoteip
 				},
 				'https://challenges.cloudflare.com/turnstile/v0/siteverify'
 			);

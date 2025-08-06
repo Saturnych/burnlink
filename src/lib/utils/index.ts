@@ -43,7 +43,10 @@ export const lockResource = (frm: Record<string, unknown>, uri: string) => {
 				try {
 					let { promise, resolve, reject } = Promise.withResolvers();
 
-					const result: object = await Promise.race([promise, timeout(TIMEOUT, { error: 'timeout', uid })]);
+					const result: object = await Promise.race([
+						promise,
+						timeout(TIMEOUT, { error: 'timeout', uid })
+					]);
 
 					if (DEBUG) console.log('lockResource() result:', result);
 				} catch (err) {

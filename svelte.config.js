@@ -33,7 +33,7 @@ const config = {
 		csrf: { checkOrigin: false },
 		experimental: {
 			remoteFunctions: true
-		},
+		}
 	}
 };
 

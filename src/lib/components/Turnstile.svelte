@@ -8,7 +8,7 @@
 					sitekey,
 					callback: (token) => {
 						console.log(`Challenge Success ${token}`);
-					},
+					}
 				});
 			}
 		};
@@ -30,4 +30,9 @@
 	</script>
 </svelte:head>
 
-<div id="turnstile" class="cf-turnstile" data-sitekey="{TURNSTILE_SITEKEY}" data-callback="turnstileCallback"></div>
+<div
+	id="turnstile"
+	class="cf-turnstile"
+	data-sitekey={TURNSTILE_SITEKEY}
+	data-callback="turnstileCallback"
+></div>
