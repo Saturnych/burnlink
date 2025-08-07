@@ -17,12 +17,12 @@ concurrency:
 
 jobs:
   playwright:
-    uses: './.github/workflows/playwright.yaml'
+    uses: './.github/workflows/playwright.yml'
     secrets: inherit
 
   email:
     needs: playwright
-    uses: './.github/workflows/email.yaml'
+    uses: './.github/workflows/email.yml'
     with:
       name: 'Tests'
       status: ${{ needs.playwright.outputs.status }}
