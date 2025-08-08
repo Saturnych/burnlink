@@ -1,7 +1,8 @@
 <script lang="ts">
 	import Icon, { listIcons } from '@iconify/svelte';
 	import { browser } from '$app/environment';
-	import { browserTheme } from '$lib/stores';
+	import { browserTheme, uid } from '$lib/stores';
+	import { getCookie } from '$lib/utils/cookie';
 	import type { BrowserTheme } from '$lib/types';
 	import Home from '$lib/components/Home.svelte';
 	import { DEBUG } from '$lib/vars/public';
@@ -25,6 +26,7 @@
 		} else {
 			browserTheme.update(theme);
 		}
+		document.documentElement.setAttribute('data-theme', isDarkTheme() ? 'dark' : 'light');
 		document.documentElement.classList.toggle('dark', isDarkTheme());
 		darkMode = document.documentElement.classList.contains('dark');
 	};
@@ -49,6 +51,11 @@
 						evt.newValue
 					);
 				if (evt.key === 'browserTheme' && !!evt.newValue) setTheme(evt.newValue);
+				else if ((!evt.key || evt.key === 'uid') && !evt.newValue) {
+					const cookie: string = getCookie('uid');
+					if (DEBUG) console.log('cookie.uid:', cookie);
+					if (!!cookie) uid.update(cookie);
+				}
 			},
 			false
 		);
