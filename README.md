@@ -9,7 +9,6 @@
 - ✅ **Modern Stack** – Powered by SvelteKit and Tailwind CSS, deployed on Vercel
 - ✅ **End-to-End Testing** – Comprehensive browser testing using Playwright
 - ✅ **CI/CD Pipeline** – GitHub workflows for testing and email notification if tests succeed
-- ✅ **End-to-End Testing** – Comprehensive browser testing using Playwright
 
 ## Technical Implementation
 
