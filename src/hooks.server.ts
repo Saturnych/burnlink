@@ -1,6 +1,7 @@
 import type { Handle } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
+//import { partytownSnippet } from '@qwik.dev/partytown/integration';
 import type { BrowserTheme } from '$lib/types';
 
 export const addHeaders: Handle = async ({ event, resolve }) => {
@@ -13,11 +14,13 @@ export const addHeaders: Handle = async ({ event, resolve }) => {
 
 	const browserTheme: BrowserTheme = cookies.get('browserTheme');
 	const resolveOptions: Record<string, Function> = {};
-	if (!!browserTheme && ['dark', 'light', 'system'].includes(browserTheme)) {
-		resolveOptions.transformPageChunk = ({ html }) => {
-			return html.replace('data-theme=""', `data-theme="${browserTheme}"`);
-		};
-	}
+	resolveOptions.transformPageChunk = ({ html }) => {
+		if (typeof partytownSnippet !== 'undefined') html = html.replace('<!-- partytown -->', `<script>${partytownSnippet()}</script>`);
+		if (!!browserTheme && ['dark', 'light', 'system'].includes(browserTheme)) {
+			html = html.replace('data-theme=""', `data-theme="${browserTheme}"`);
+		}
+		return html;
+	};
 
 	const response = await resolve(event, resolveOptions);
 	//response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');

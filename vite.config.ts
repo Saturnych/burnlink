@@ -1,5 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+//import { partytownVite } from '@qwik.dev/partytown/utils';
 import tailwindcss from '@tailwindcss/vite';
 import mkcert from 'vite-plugin-mkcert';
 import crossOriginIsolation from 'vite-plugin-cross-origin-isolation';
@@ -11,6 +12,7 @@ import pkg from './package.json' with { type: 'json' };
 export default defineConfig({
 	plugins: [
 		sveltekit(),
+		//partytownVite(),
 		tailwindcss(),
 		mkcert(),
 		crossOriginIsolation(),
