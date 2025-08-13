@@ -17,12 +17,12 @@ concurrency:
 
 jobs:
   playwright:
-    uses: './.github/workflows/playwright.yml'
+    uses: 'Saturnych/actions-workflows/.github/workflows/playwright.yml@develop'
     secrets: inherit
 
   email:
     needs: playwright
-    uses: './.github/workflows/email.yml'
+    uses: 'Saturnych/actions-workflows/.github/workflows/email.yml@develop'
     with:
       name: 'Tests'
       status: ${{ needs.playwright.outputs.status }}

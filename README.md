@@ -8,7 +8,7 @@
 - ✅ **Unique Links** – Generates encrypted URLs for secure access
 - ✅ **Modern Stack** – Powered by SvelteKit and Tailwind CSS, deployed on Vercel
 - ✅ **End-to-End Testing** – Comprehensive browser testing using Playwright
-- ✅ **CI/CD Pipeline** – GitHub workflows for testing and email notification if tests succeed
+- ✅ **CI/CD Pipeline** – Shared GitHub workflows for testing and email notification if tests succeed
 
 ## Technical Implementation
 
@@ -31,4 +31,4 @@
   - Cross-browser compatibility
   - Backend API tests
 
-[**Live Demo**](https://burnlink.ru) | [**GitHub Repository**](https://github.com/Saturnych/burnlink)
+[**Live Demo**](https://burnlink.ru) | [**GitHub Repository**](https://github.com/Saturnych/burnlink) | [**Shared Workflows Repository**](https://github.com/Saturnych/actions-workflows)
