@@ -12,14 +12,11 @@ const DEBUG = process.env.NODE_ENV !== 'production';
 if (DEBUG) config({ quiet: true });
 const {
 	PUBLIC_APP_URL,
-	PUBLIC_LINK_URI,
-	PUBLIC_TOKEN_URI,
-	PRIVATE_TOKEN_EMAIL,
+	PUBLIC_LINK_URI, // /api/link
+	PUBLIC_TOKEN_URI, // /api/token
+	PRIVATE_TOKEN_EMAIL = null,
 	PRIVATE_VERCEL_APP_NAME = 'burnlink',
-	PRIVATE_VERCEL_TEAM_SLUG = null,
 	PRIVATE_VERCEL_TEAM_ID = null,
-	PRIVATE_VERCEL_USER_ID = null,
-	PRIVATE_VERCEL_PROJECT_ID = null,
 	PRIVATE_VERCEL_TOKEN = null,
 	SHA = null
 } = process.env;
